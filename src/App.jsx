@@ -122,8 +122,8 @@ class App extends React.Component {
         <Header />
 
         <MemoWrapper>
-          {this.state.memos.map((m) => {
-            return <MemoBox value={m} />;
+          {this.state.memos.map((m, index) => {
+            return <MemoBox key={index} value={m} />;
           })}
         </MemoWrapper>
 
