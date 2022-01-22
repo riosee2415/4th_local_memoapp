@@ -28,6 +28,25 @@ const AddButton = styled(Button)`
   box-shadow: 3px 3px 3px #999;
 `;
 
+const AddInput = styled.input`
+  width: 100%;
+  border: 1px solid skyblue;
+  border-radius: 6px;
+
+  box-shadow: 3px 3px 3px #999;
+
+  outline: none;
+  background: none;
+
+  padding: 0px 5px;
+
+  transition: 0.5s;
+
+  &:focus {
+    border: 1px solid blue;
+  }
+`;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -35,6 +54,7 @@ class App extends React.Component {
     this.state = {
       addModal: false,
       addValue: "",
+      memos: [],
     };
   }
 
@@ -66,8 +86,33 @@ class App extends React.Component {
   };
 
   _onAddMemo = () => {
-    console.log(this.state.addValue);
+    const arr = JSON.parse(localStorage.getItem("memos")) || [];
+
+    arr.push(this.state.addValue);
+
+    localStorage.setItem("memos", JSON.stringify(arr));
+    console.log(arr);
+
+    this.setState((prev) => {
+      return {
+        memos: arr,
+      };
+    });
   };
+
+  componentDidMount() {
+    const prevMemo = JSON.parse(localStorage.getItem("memos"));
+
+    if (prevMemo === null) {
+      return;
+    }
+
+    this.setState((prev) => {
+      return {
+        memos: prevMemo,
+      };
+    });
+  }
 
   render() {
     return (
@@ -75,11 +120,9 @@ class App extends React.Component {
         <Header />
 
         <MemoWrapper>
-          <MemoBox />
-          <MemoBox />
-          <MemoBox />
-          <MemoBox />
-          <MemoBox />
+          {this.state.memos.map((m) => {
+            return <MemoBox />;
+          })}
         </MemoWrapper>
 
         <AddButton onClick={() => this._openModal()} type="primary">
@@ -92,7 +135,7 @@ class App extends React.Component {
           onCancel={() => this._closeModal()}
           onOk={() => this._onAddMemo()}
         >
-          <input
+          <AddInput
             type="text"
             value={this.state.addValue}
             onChange={this._onChangeInput}
