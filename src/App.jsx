@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./components/Header";
 import MemoBox from "./components/MemoBox";
 import styled from "styled-components";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 const MemoWrapper = styled.div`
   width: 100%;
@@ -31,7 +31,43 @@ const AddButton = styled(Button)`
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      addModal: false,
+      addValue: "",
+    };
   }
+
+  _openModal = () => {
+    this.setState((prev) => {
+      return {
+        addModal: true,
+      };
+    });
+  };
+
+  _closeModal = () => {
+    this.setState((prev) => {
+      return {
+        addModal: false,
+        addValue: "",
+      };
+    });
+  };
+
+  _onChangeInput = (event) => {
+    const v = event.target.value;
+
+    this.setState((prev) => {
+      return {
+        addValue: v,
+      };
+    });
+  };
+
+  _onAddMemo = () => {
+    console.log(this.state.addValue);
+  };
 
   render() {
     return (
@@ -46,7 +82,22 @@ class App extends React.Component {
           <MemoBox />
         </MemoWrapper>
 
-        <AddButton type="primary">+</AddButton>
+        <AddButton onClick={() => this._openModal()} type="primary">
+          +
+        </AddButton>
+
+        <Modal
+          title="ADD MEMO"
+          visible={this.state.addModal}
+          onCancel={() => this._closeModal()}
+          onOk={() => this._onAddMemo()}
+        >
+          <input
+            type="text"
+            value={this.state.addValue}
+            onChange={this._onChangeInput}
+          />
+        </Modal>
       </div>
     );
   }
