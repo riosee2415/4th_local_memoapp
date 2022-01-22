@@ -18,7 +18,7 @@ class MemoBox extends React.Component {
   }
 
   render() {
-    return <Box>MemoBoxMemoBoxMemoBoxMemoBoxMemoBoxMemoBoxMemo</Box>;
+    return <Box>{this.props.value}</Box>;
   }
 }
 

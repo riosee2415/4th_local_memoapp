@@ -91,7 +91,6 @@ class App extends React.Component {
     arr.push(this.state.addValue);
 
     localStorage.setItem("memos", JSON.stringify(arr));
-    console.log(arr);
 
     this.setState((prev) => {
       return {
@@ -121,7 +120,7 @@ class App extends React.Component {
 
         <MemoWrapper>
           {this.state.memos.map((m) => {
-            return <MemoBox />;
+            return <MemoBox value={m} />;
           })}
         </MemoWrapper>
 
