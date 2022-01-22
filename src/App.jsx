@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./components/Header";
 import MemoBox from "./components/MemoBox";
 import styled from "styled-components";
-import { Button, Modal } from "antd";
+import { Button, Modal, message } from "antd";
 
 const MemoWrapper = styled.div`
   width: 100%;
@@ -97,6 +97,9 @@ class App extends React.Component {
         memos: arr,
       };
     });
+
+    this._closeModal();
+    message.success("새로운 메모가 등록되었습니다.");
   };
 
   componentDidMount() {
